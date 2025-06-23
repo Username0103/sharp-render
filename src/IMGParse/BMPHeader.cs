@@ -17,7 +17,7 @@ namespace sharp_render.src.IMGParse
             string[] Expected = ["42", "4D"];
             if (!Signature.SequenceEqual(Expected))
             {
-                throw new Exception($"Expected {string.Join(", ", Expected)}, got {string.Join(", ", Signature)}");
+                throw new FileLoadException($"Expected {string.Join(", ", Expected)}, got {string.Join(", ", Signature)}");
             }
         }
     }

@@ -20,15 +20,18 @@ namespace sharp_render.src.IMGParse
             IEnumerable<string[]> Pixels = HxFile.IMGHx.Chunk(HxFile.Info.BitsPerPixel / 8);
             foreach (string[] Pixel in Pixels)
             {
-                // this assumes bpp is 24
-                Colors = Colors.Append(new Color(
-                    // blue, green, red
-                    [
-                        Utils.HxToInt([Pixel[2]]),
+                if (Pixel.Length == 3)
+                {
+                    // this assumes bpp is 24
+                    Colors = Colors.Append(new Color(
+                        // blue, green, red
+                        [
+                            Utils.HxToInt([Pixel[2]]),
                         Utils.HxToInt([Pixel[1]]),
                         Utils.HxToInt([Pixel[0]])
-                    ]
-                ));
+                        ]
+                    ));
+                }
             }
             return [.. Colors];
         }

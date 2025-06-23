@@ -27,11 +27,13 @@ namespace sharp_render.src.IMGParse
             }
             if (BitsPerPixel != 24)
             {
-                throw new NotSupportedException("Program does not support non-truecolor bitmap");
+                throw new NotSupportedException("Program does not support non-truecolor bitmap." +
+                " See https://online-converting.com/image/convert2bmp/ for converting it to one.");
             }
             if (CompressionLevel > 0)
             {
-                throw new NotSupportedException("Program does not support compressed bitmap");
+                throw new NotSupportedException("Program does not support compressed bitmap." +
+                " See https://online-converting.com/image/convert2bmp/ for removing compression.");
             }
         }
     }
