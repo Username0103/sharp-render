@@ -1,4 +1,6 @@
-namespace sharp_render.src
+using sharp_render.src.Common;
+
+namespace sharp_render.src.IMGParse
 {
     public class ImgReader
     {
@@ -42,7 +44,6 @@ namespace sharp_render.src
                     count++;
                 }
             }
-
             return Utils.ReverseMatrix(ColorMatrix);
         }
     }

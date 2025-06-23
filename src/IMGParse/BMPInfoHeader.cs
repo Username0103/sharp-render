@@ -1,4 +1,4 @@
-namespace sharp_render.src
+namespace sharp_render.src.IMGParse
 {
     public class InfoHeader
     {

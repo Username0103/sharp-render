@@ -1,6 +1,6 @@
-namespace sharp_render.src
+namespace sharp_render.src.Common
 {
-    public class Color
+    public record Color
     {
         public int R;
         public int G;
@@ -13,7 +13,7 @@ namespace sharp_render.src
                 if (colors[i] > 255 || colors[i] < 0)
                 {
                     throw new OverflowException($"Tried to set a color to {colors[i]}."
-                    + $" RGB = {colors[0]}-{colors[1]}-{colors[2]}");
+                    + $"\nRGB = {colors[0]}-{colors[1]}-{colors[2]}");
                 }
             }
             R = colors[0];

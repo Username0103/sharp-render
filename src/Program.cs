@@ -1,8 +1,10 @@
 ﻿// format info: https://www.ece.ualberta.ca/~elliott/ee552/studentAppNotes/2003_w/misc/bmp_file_format/bmp_file_format.htm
 // testing:
+using sharp_render.src.Common;
+using sharp_render.src.IMGHandle;
+using sharp_render.src.IMGParse;
 
-using sharp_render.src;
-BMPFIle TestFile = new("""../../../test/sample1.bmp""");
+BMPFIle TestFile = new("""../../../test/Sample2.bmp""");
 Console.WriteLine("Results:");
 Console.WriteLine($"Signature: {string.Join(", ", TestFile.Header.Signature)}");
 Console.WriteLine($"OffsetBytes: {TestFile.Header.OffsetBytes}");
@@ -13,7 +15,9 @@ Console.WriteLine($"BitsPerPixel: {TestFile.Info.BitsPerPixel}");
 Console.WriteLine($"Bytes in image: {TestFile.IMGHx.Length}");
 
 ImgReader BMPRead = new(TestFile);
-Color[,] matrix = BMPRead.Result;
+Color[,] matrix = new Resizer(BMPRead.Result, 50, 30).Result;
+//Color[,] matrix = BMPRead.Result;
+
 int rows = matrix.GetLength(0);
 int cols = matrix.GetLength(1);
 
