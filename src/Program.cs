@@ -1,47 +1,34 @@
-﻿// format info: https://www.ece.ualberta.ca/~elliott/ee552/studentAppNotes/2003_w/misc/bmp_file_format/bmp_file_format.htm
-// testing:
-using sharp_render.src.Common;
-using sharp_render.src.IMGHandle;
-using sharp_render.src.IMGParse;
+﻿
 
-BMPFIle TestFile = new("""../../../test/Sample2.bmp""");
-Console.WriteLine("Results:");
-Console.WriteLine($"Signature: {string.Join(", ", TestFile.Header.Signature)}");
-Console.WriteLine($"OffsetBytes: {TestFile.Header.OffsetBytes}");
-Console.WriteLine($"HeaderSize: {TestFile.Info.HeaderSize}");
-Console.WriteLine($"Width: {TestFile.Info.Width}");
-Console.WriteLine($"Height: {TestFile.Info.Height}");
-Console.WriteLine($"BitsPerPixel: {TestFile.Info.BitsPerPixel}");
-Console.WriteLine($"Bytes in image: {TestFile.IMGHx.Length}");
-
-ImgReader BMPRead = new(TestFile);
-Color[,] matrix = new Resizer(BMPRead.Result, 50, 30).Result;
-//Color[,] matrix = BMPRead.Result;
-
-int rows = matrix.GetLength(0);
-int cols = matrix.GetLength(1);
-
-using StreamWriter writer = new("./debug.txt");
-writer.WriteLine("[");
-for (int i = 0; i < rows; i++)
+namespace sharp_render.src
 {
-    writer.Write("  [ ");
-    for (int j = 0; j < cols; j++)
+    class Program
     {
-        writer.Write(matrix[i, j].ToString());
-        if (j < cols - 1)
+        private readonly string help = """sharp-render ([(-h || --help)] [(-p || --path) <PathToBMPFile>]) || [<PathToBMPFile>]""";
+        static void Main(string[] args)
         {
-            writer.Write(", ");
+            Program self = new();
+            string path = self.ParseArgs(args);
+            if (path.Length == 0) { return; }
+            IMGParse.Orchestrator Image = new(path);
+            IMGHandle.Orchestrator Printable = new(Image.Result);
+            Common.IMGPrint.Print(Printable.Result, Printable.TermColorsResult);
+        }
+        private string ParseArgs(string[] args)
+        {
+            bool isPath = false;
+            string path = "";
+            int i = 0;
+            if (args.Length == 0) { Console.WriteLine(help); return ""; }
+            foreach (string arg in args)
+            {
+                if ((arg == "-h") || (arg == "--help")) { Console.WriteLine(help); }
+                else if ((arg == "-p") || (arg == "--path")) { isPath = true; }
+                else if (isPath) { path = arg; isPath = false; }
+                else if (i == 0) { return arg; }
+                i++;
+            }
+            return path;
         }
     }
-    writer.Write(" ]");
-    if (i < rows - 1)
-    {
-        writer.WriteLine(",");
-    }
-    else
-    {
-        writer.WriteLine();
-    }
 }
-writer.WriteLine("]");
