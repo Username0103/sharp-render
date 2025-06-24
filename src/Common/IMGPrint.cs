@@ -17,7 +17,7 @@ namespace sharp_render.src.Common
                     builder.Append(CodeToPrint(code));
                 }
             }
-            Console.WriteLine(builder.ToString());
+            //Console.WriteLine(builder.ToString());
         }
         private static string CodeToPrint(int color)
         {
