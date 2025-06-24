@@ -19,6 +19,10 @@ namespace sharp_render.src.IMGHandle
         }
         private static int[] GetTermDimensions()
         {
+            if (LoggingSingleton.Instance.Level == LoggingLevels.Debug)
+            {
+                return [500, 500]; // will not get printed at the end.
+            }
             return [Console.WindowHeight, Console.WindowWidth];
         }
     }

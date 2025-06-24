@@ -1,25 +1,21 @@
-using System.Diagnostics;
 using sharp_render.src.Common;
 
 namespace sharp_render.src.IMGHandle
 {
-    public class CoerceColors
+    public class CoerceColors : Timeable
     {
         private readonly Color[,] colorInput;
         private readonly Color[] colorsValid;
         private readonly DeltaE.CieDe2000Comparison comparer = new();
         public readonly Color[,] Result;
 
-        public CoerceColors(Color[,] inputColors, Color[] validColors)
+        public CoerceColors(Color[,] inputColors, Color[] validColors) : base("Color coercion")
         {
-            var watch = new Stopwatch();
-            watch.Start();
             colorInput = inputColors;
             colorsValid = validColors;
             Result = new Color[inputColors.GetLength(0), inputColors.GetLength(1)];
             FillResult();
-            watch.Stop();
-            Console.WriteLine(watch.ElapsedMilliseconds);
+            Finish();
         }
         private void FillResult()
         {

@@ -2,7 +2,7 @@ using sharp_render.src.Common;
 
 namespace sharp_render.src.IMGHandle
 {
-    public class Resizer
+    public class Resizer : Timeable
     {
         private readonly float targetRatioX;
         private readonly float targetRatioY;
@@ -10,7 +10,7 @@ namespace sharp_render.src.IMGHandle
         private readonly int dataNumCols;
         public Color[,] Result;
 
-        public Resizer(Color[,] data, int targetRows, int targetColumns)
+        public Resizer(Color[,] data, int targetRows, int targetColumns) : base("Resizing image")
         {
             Color[,] target = new Color[targetRows, targetColumns];
             dataNumRows = data.GetLength(0);
@@ -32,6 +32,7 @@ namespace sharp_render.src.IMGHandle
                 }
             }
             Result = target;
+            Finish();
         }
         private static Color Interpolate(Color[] sources, float[] weights)
         {
