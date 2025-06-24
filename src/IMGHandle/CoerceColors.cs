@@ -1,5 +1,7 @@
 using sharp_render.src.Common;
 
+// TODO: use openTK for gpu parallelization https://opentk.net/
+
 namespace sharp_render.src.IMGHandle
 {
     public class CoerceColors
@@ -28,13 +30,11 @@ namespace sharp_render.src.IMGHandle
         }
         private Color FindNearest(Color input)
         {
-            Dictionary<Color, int> Differences = [];
+            Dictionary<Color, double> Differences = [];
+            DeltaE.CieDe2000Comparison comparer = new();
             foreach (Color termColor in colorsValid)
             {
-                Differences[termColor] =
-                  Math.Abs(input.R - termColor.R) +
-                  Math.Abs(input.B - termColor.B) +
-                  Math.Abs(input.G - termColor.G);
+                Differences[termColor] = comparer.CalculateDeltaE(input, termColor);
             }
             return Differences.MinBy(kvp => kvp.Value).Key;
         }

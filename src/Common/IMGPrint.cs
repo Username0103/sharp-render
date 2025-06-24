@@ -1,23 +1,27 @@
+using System.Text;
+
 namespace sharp_render.src.Common
 {
     public class IMGPrint
     {
         public static void Print(Color[,] image, Dictionary<Color, int> color2Ansi)
         {
+            StringBuilder builder = new();
             foreach (int x in Enumerable.Range(0, image.GetLength(0)))
             {
-                Console.WriteLine();
+                builder.Append('\n');
                 foreach (int y in Enumerable.Range(0, image.GetLength(1)))
                 {
                     Color pixel = image[x, y];
                     int code = color2Ansi[pixel];
-                    PrintPixel(code);
+                    builder.Append(CodeToPrint(code));
                 }
             }
+            Console.WriteLine(builder.ToString());
         }
-        private static void PrintPixel(int color)
+        private static string CodeToPrint(int color)
         {
-            Console.Write($"\x1b[38;5;{color}m█\x1b[0m");
+            return $"\x1b[38;5;{color}m█\x1b[0m";
         }
     }
 }

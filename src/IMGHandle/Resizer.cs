@@ -35,19 +35,19 @@ namespace sharp_render.src.IMGHandle
         }
         private static Color Interpolate(Color[] sources, float[] weights)
         {
-            List<float> redChannel = [];
-            List<float> bluChannel = [];
-            List<float> greChannel = [];
+            float red = 0;
+            float blu = 0;
+            float gre = 0;
             for (int i = 0; i < 4; i++)
             {
-                redChannel.Add(sources[i].R * weights[i]);
-                bluChannel.Add(sources[i].G * weights[i]);
-                greChannel.Add(sources[i].B * weights[i]);
+                red += sources[i].R * weights[i];
+                blu += sources[i].B * weights[i];
+                gre += sources[i].G * weights[i];
             }
             return new Color([
-                (int)redChannel.Sum(),
-                (int)bluChannel.Sum(),
-                (int)greChannel.Sum()
+                (int)red,
+                (int)gre,
+                (int)blu,
             ]);
         }
 
@@ -56,8 +56,8 @@ namespace sharp_render.src.IMGHandle
             return
             [
                 (1 - distanceX) * (1 - distanceY),
-                (1-distanceX) * distanceY,
-                distanceX * (1-distanceY),
+                (1 - distanceX) * distanceY,
+                distanceX * (1 - distanceY),
                 distanceX * distanceY
             ];
         }
@@ -67,8 +67,8 @@ namespace sharp_render.src.IMGHandle
             return
             [
                 data[sourceX, sourceY],
-                data[Math.Min(sourceX + 1, dataNumRows), sourceY],
-                data[sourceX, Math.Min(sourceY + 1, dataNumCols)],
+                data[Math.Min(sourceX + 1, dataNumRows - 1), sourceY],
+                data[sourceX, Math.Min(sourceY + 1, dataNumCols - 1)],
                 data[Math.Min(sourceX + 1, dataNumRows - 1), Math.Min(sourceY + 1, dataNumCols - 1)]
             ];
         }
