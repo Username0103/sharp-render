@@ -4,8 +4,6 @@ namespace sharp_render.src.IMGHandle
 {
     public class Resizer : Timeable
     {
-        private readonly float targetRatioX;
-        private readonly float targetRatioY;
         private readonly int dataNumRows;
         private readonly int dataNumCols;
         public Color[,] Result;
@@ -15,8 +13,8 @@ namespace sharp_render.src.IMGHandle
             Color[,] target = new Color[targetRows, targetColumns];
             dataNumRows = data.GetLength(0);
             dataNumCols = data.GetLength(1);
-            targetRatioX = dataNumRows / (float)targetRows;
-            targetRatioY = dataNumCols / (float)targetColumns;
+            var targetRatioX = dataNumRows / (float)targetRows;
+            var targetRatioY = dataNumCols / (float)targetColumns;
 
             for (int x = 0; x < targetRows; x++)
             {

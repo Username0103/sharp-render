@@ -6,7 +6,7 @@ namespace sharp_render.src.IMGHandle
     {
         private readonly Color[,] colorInput;
         private readonly Color[] colorsValid;
-        private readonly DeltaE.CieDe2000Comparison comparer = new();
+        private readonly CieDe2000Comparison comparer = new();
         public readonly Color[,] Result;
 
         public CoerceColors(Color[,] inputColors, Color[] validColors) : base("Color coercion")
