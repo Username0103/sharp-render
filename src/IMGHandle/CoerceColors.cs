@@ -6,7 +6,6 @@ namespace sharp_render.src.IMGHandle
     {
         private readonly Color[,] colorInput;
         private readonly Color[] colorsValid;
-        private readonly CieDe2000Comparison comparer = new();
         public readonly Color[,] Result;
 
         public CoerceColors(Color[,] inputColors, Color[] validColors) : base("Color coercion")
@@ -45,7 +44,7 @@ namespace sharp_render.src.IMGHandle
             Dictionary<Color, double> Differences = [];
             foreach (Color termColor in colorsValid)
             {
-                Differences[termColor] = comparer.CalculateDeltaE(input, termColor);
+                Differences[termColor] = CieDe2000Comparison.CalculateDeltaE(input, termColor);
             }
             Color output = Differences.MinBy(kvp => kvp.Value).Key;
             return new(output, x, y);
