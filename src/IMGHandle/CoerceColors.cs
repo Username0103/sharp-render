@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using sharp_render.src.Common;
 
 namespace sharp_render.src.IMGHandle
@@ -7,6 +8,7 @@ namespace sharp_render.src.IMGHandle
         private readonly Color[,] colorInput;
         private readonly Color[] colorsValid;
         public readonly Color[,] Result;
+        private readonly ConcurrentDictionary<Color, Color> colorCache = [];
 
         public CoerceColors(Color[,] inputColors, Color[] validColors) : base("Color coercion")
         {
@@ -41,12 +43,16 @@ namespace sharp_render.src.IMGHandle
 
         private FindNearestOutput FindNearest(Color input, int x, int y)
         {
+            if (colorCache.TryGetValue(input, out Color? cacheResult))
+            { return new(cacheResult, x, y); }
+
             Dictionary<Color, double> Differences = [];
             foreach (Color termColor in colorsValid)
             {
                 Differences[termColor] = CieDe2000Comparison.CalculateDeltaE(input, termColor);
             }
             Color output = Differences.MinBy(kvp => kvp.Value).Key;
+            colorCache.TryAdd(input, output);
             return new(output, x, y);
         }
 
