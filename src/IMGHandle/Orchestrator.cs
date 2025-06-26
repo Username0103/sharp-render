@@ -14,7 +14,7 @@ namespace sharp_render.src.IMGHandle
             Color[] validColors = [.. colors.Result.Keys];
             TermColorsResult = colors.Result;
             Color[,] resized = new Resizer(Image, dimensions[0], dimensions[1]).Result;
-            Color[,] coerced = new CoerceColors(resized, validColors).Result;
+            Color[,] coerced = new ReduceColors(resized, validColors).Result;
             Result = coerced;
         }
         private static int[] GetTermDimensions()

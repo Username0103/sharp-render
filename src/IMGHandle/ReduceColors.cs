@@ -3,14 +3,14 @@ using sharp_render.src.Common;
 
 namespace sharp_render.src.IMGHandle
 {
-    public class CoerceColors : Timeable
+    public class ReduceColors : Timeable
     {
         private readonly Color[,] colorInput;
         private readonly Color[] colorsValid;
         public readonly Color[,] Result;
         private readonly ConcurrentDictionary<Color, Color> colorCache = [];
 
-        public CoerceColors(Color[,] inputColors, Color[] validColors) : base("Color coercion")
+        public ReduceColors(Color[,] inputColors, Color[] validColors) : base("Color reduction")
         {
             colorInput = inputColors;
             colorsValid = validColors;
