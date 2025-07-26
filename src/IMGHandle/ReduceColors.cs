@@ -10,7 +10,8 @@ namespace sharp_render.src.IMGHandle
         public readonly Color[,] Result;
         private readonly ConcurrentDictionary<Color, Color> colorCache = [];
 
-        public ReduceColors(Color[,] inputColors, Color[] validColors) : base("Color reduction")
+        public ReduceColors(Color[,] inputColors, Color[] validColors)
+            : base("Color reduction")
         {
             colorInput = inputColors;
             colorsValid = validColors;
@@ -18,9 +19,12 @@ namespace sharp_render.src.IMGHandle
             FillResult();
             Finish();
         }
+
         private void FillResult()
         {
-            var colorTasks = new Task<FindNearestOutput>[colorInput.GetLength(0) * colorInput.GetLength(1)];
+            var colorTasks = new Task<FindNearestOutput>[
+                colorInput.GetLength(0) * colorInput.GetLength(1)
+            ];
             int i = 0;
 
             foreach (int x in Enumerable.Range(0, colorInput.GetLength(0)))
@@ -44,7 +48,9 @@ namespace sharp_render.src.IMGHandle
         private FindNearestOutput FindNearest(Color input, int x, int y)
         {
             if (colorCache.TryGetValue(input, out Color? cacheResult))
-            { return new(cacheResult, x, y); }
+            {
+                return new(cacheResult, x, y);
+            }
 
             Dictionary<Color, double> Differences = [];
             foreach (Color termColor in colorsValid)
@@ -58,8 +64,9 @@ namespace sharp_render.src.IMGHandle
 
         private readonly struct FindNearestOutput(Color result, int x, int y)
         {
-            readonly public Color result = result;
-            readonly public int x = x, y = y;
+            public readonly Color result = result;
+            public readonly int x = x,
+                y = y;
         }
     }
 }

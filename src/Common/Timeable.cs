@@ -16,6 +16,7 @@ namespace sharp_render.src.Common
                 timer.Start();
             }
         }
+
         protected void Finish()
         {
             if (LoggingSingleton.Instance.Level >= LoggingLevels.Debug)
@@ -25,6 +26,7 @@ namespace sharp_render.src.Common
             }
         }
     }
+
     public abstract class TimeableNoConstructor
     {
         protected string? Name;
@@ -39,6 +41,7 @@ namespace sharp_render.src.Common
                 timer.Start();
             }
         }
+
         protected void Finish()
         {
             if (LoggingSingleton.Instance.Level >= LoggingLevels.Debug)

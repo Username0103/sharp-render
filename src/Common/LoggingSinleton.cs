@@ -4,12 +4,16 @@ namespace sharp_render.src.Common
     {
         private static readonly Lazy<LoggingSingleton> lazy = new(() => new LoggingSingleton());
 
-        public static LoggingSingleton Instance { get { return lazy.Value; } }
+        public static LoggingSingleton Instance
+        {
+            get { return lazy.Value; }
+        }
 
         private LoggingSingleton()
         {
             Level = LoggingLevels.Info;
         }
+
         public LoggingLevels Level;
     }
 }

@@ -18,13 +18,29 @@ namespace sharp_render.src.Common
         {
             foreach (int code in Enumerable.Range(0, 16))
             {
-                int level = code > 8 ? 255 : code == 7 ? 229 : 205;
-                int r = code == 8 ? 127 : (code & 1) != 0 ? level : code == 12 ? 92 : 0;
-                int g = code == 8 ? 127 : (code & 2) != 0 ? level : code == 12 ? 92 : 0;
-                int b = code == 8 ? 127 : code == 4 ? 238 : (code & 4) != 0 ? level : 0;
+                int level =
+                    code > 8 ? 255
+                    : code == 7 ? 229
+                    : 205;
+                int r =
+                    code == 8 ? 127
+                    : (code & 1) != 0 ? level
+                    : code == 12 ? 92
+                    : 0;
+                int g =
+                    code == 8 ? 127
+                    : (code & 2) != 0 ? level
+                    : code == 12 ? 92
+                    : 0;
+                int b =
+                    code == 8 ? 127
+                    : code == 4 ? 238
+                    : (code & 4) != 0 ? level
+                    : 0;
                 Result[new Color([r, g, b])] = code;
             }
         }
+
         private void Add8Bit()
         {
             int ansiCode = 16;
@@ -43,6 +59,7 @@ namespace sharp_render.src.Common
                 }
             }
         }
+
         private void AddGray()
         {
             int ansiCode = 232;

@@ -6,7 +6,8 @@ namespace sharp_render.src.IMGParse
     {
         public Color[,] Result { get; }
 
-        public Orchestrator(string path) : base("Reading image")
+        public Orchestrator(string path)
+            : base("Reading image")
         {
             BMPFIle file = new(path);
             ImgReader BMPRead = new(file);

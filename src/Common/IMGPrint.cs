@@ -25,6 +25,7 @@ namespace sharp_render.src.Common
                 Console.WriteLine(builder.ToString());
             }
         }
+
         private static string CodeToPrint(int color)
         {
             return $"\x1b[38;5;{color}m█\x1b[0m";

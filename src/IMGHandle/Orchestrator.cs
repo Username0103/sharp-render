@@ -17,6 +17,7 @@ namespace sharp_render.src.IMGHandle
             Color[,] coerced = new ReduceColors(resized, validColors).Result;
             Result = coerced;
         }
+
         private static int[] GetTermDimensions()
         {
             if (LoggingSingleton.Instance.Level == LoggingLevels.Debug)

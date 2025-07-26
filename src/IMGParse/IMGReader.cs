@@ -14,6 +14,7 @@ namespace sharp_render.src.IMGParse
             HxFile = ToRead;
             Result = To2D(Extract1D(), HxFile.Info.Height, HxFile.Info.Width);
         }
+
         private Color[] Extract1D()
         {
             IEnumerable<Color> Colors = [];
@@ -23,23 +24,28 @@ namespace sharp_render.src.IMGParse
                 if (Pixel.Length == 3)
                 {
                     // this assumes bpp is 24
-                    Colors = Colors.Append(new Color(
-                        // blue, green, red
-                        [
-                            Utils.HxToInt([Pixel[2]]),
-                        Utils.HxToInt([Pixel[1]]),
-                        Utils.HxToInt([Pixel[0]])
-                        ]
-                    ));
+                    Colors = Colors.Append(
+                        new Color(
+                            // blue, green, red
+                            [
+                                Utils.HxToInt([Pixel[2]]),
+                                Utils.HxToInt([Pixel[1]]),
+                                Utils.HxToInt([Pixel[0]]),
+                            ]
+                        )
+                    );
                 }
             }
             return [.. Colors];
         }
+
         private static Color[,] To2D(Color[] Colors, int Height, int Width)
         {
             Color[,] ColorMatrix = new Color[Height, Width];
             if (Colors.Length < Height * Width)
-                throw new ArgumentException($"Size mismatch: Pixel data expected: {Height * Width}; Got: {Colors.Length}");
+                throw new ArgumentException(
+                    $"Size mismatch: Pixel data expected: {Height * Width}; Got: {Colors.Length}"
+                );
             int count = 0;
             for (int i = 0; i < Height; i++)
             {

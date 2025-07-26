@@ -8,6 +8,7 @@ namespace sharp_render.src.IMGParse
         public int BitsPerPixel { get; }
         private readonly int CompressionLevel;
         private readonly string[] RawData;
+
         public InfoHeader(string[] Data)
         {
             RawData = Data;
@@ -23,17 +24,23 @@ namespace sharp_render.src.IMGParse
         {
             if (HeaderSize != RawData.Length)
             {
-                throw new BadImageFormatException($"InfoHeader size mismatch. Expected {HeaderSize}, got {RawData.Length}");
+                throw new BadImageFormatException(
+                    $"InfoHeader size mismatch. Expected {HeaderSize}, got {RawData.Length}"
+                );
             }
             if (BitsPerPixel != 24)
             {
-                throw new NotSupportedException("Program does not support non-truecolor bitmap." +
-                " See https://online-converting.com/image/convert2bmp/ for converting it to one.");
+                throw new NotSupportedException(
+                    "Program does not support non-truecolor bitmap."
+                        + " See https://online-converting.com/image/convert2bmp/ for converting it to one."
+                );
             }
             if (CompressionLevel > 0)
             {
-                throw new NotSupportedException("Program does not support compressed bitmap." +
-                " See https://online-converting.com/image/convert2bmp/ for removing compression.");
+                throw new NotSupportedException(
+                    "Program does not support compressed bitmap."
+                        + " See https://online-converting.com/image/convert2bmp/ for removing compression."
+                );
             }
         }
     }

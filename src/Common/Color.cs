@@ -12,6 +12,7 @@ namespace sharp_render.src.Common
             G = colors[1];
             B = colors[2];
         }
+
         public override string ToString()
         {
             return $"{R} {G} {B}";

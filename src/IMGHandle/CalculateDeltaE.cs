@@ -32,9 +32,12 @@ namespace sharp_render.src.IMGHandle
             double c_star_1_ab = Math.Sqrt(a1 * a1 + b1 * b1);
             double c_star_2_ab = Math.Sqrt(a2 * a2 + b2 * b2);
             double c_star_average_ab = (c_star_1_ab + c_star_2_ab) * 0.5;
-            double c_star_average_ab_pot7 = c_star_average_ab * c_star_average_ab * c_star_average_ab;
+            double c_star_average_ab_pot7 =
+                c_star_average_ab * c_star_average_ab * c_star_average_ab;
             c_star_average_ab_pot7 *= c_star_average_ab_pot7 * c_star_average_ab;
-            double G = 0.5 * (1 - Math.Sqrt(c_star_average_ab_pot7 / (c_star_average_ab_pot7 + 6103515625)));
+            double G =
+                0.5
+                * (1 - Math.Sqrt(c_star_average_ab_pot7 / (c_star_average_ab_pot7 + 6103515625)));
             double a1_prime = (1 + G) * a1;
             double a2_prime = (1 + G) * a2;
             double C_prime_1 = Math.Sqrt(a1_prime * a1_prime + b1 * b1);
@@ -61,7 +64,8 @@ namespace sharp_render.src.IMGHandle
             {
                 delta_h_prime = h_prime_2 - h_prime_1 - 360.0;
             }
-            double delta_H_prime = 2 * Math.Sqrt(C_prime_1 * C_prime_2) * Math.Sin(delta_h_prime * Math.PI / 360.0);
+            double delta_H_prime =
+                2 * Math.Sqrt(C_prime_1 * C_prime_2) * Math.Sin(delta_h_prime * Math.PI / 360.0);
 
             double L_prime_average = (L1 + L2) * 0.5;
             double C_prime_average = (C_prime_1 + C_prime_2) * 0.5;
@@ -82,12 +86,20 @@ namespace sharp_render.src.IMGHandle
             {
                 h_prime_average = (h_prime_1 + h_prime_2 - 360.0) * 0.5;
             }
-            double L_prime_average_minus_50_square = (L_prime_average - 50) * (L_prime_average - 50);
+            double L_prime_average_minus_50_square =
+                (L_prime_average - 50) * (L_prime_average - 50);
 
-            double S_L = 1 + (0.015 * L_prime_average_minus_50_square / Math.Sqrt(20 + L_prime_average_minus_50_square));
+            double S_L =
+                1
+                + (
+                    0.015
+                    * L_prime_average_minus_50_square
+                    / Math.Sqrt(20 + L_prime_average_minus_50_square)
+                );
             double S_C = 1 + 0.045 * C_prime_average;
             double h_rad = h_prime_average * Math.PI / 180.0;
-            double T = 1
+            double T =
+                1
                 - 0.17 * Math.Cos(h_rad - 30.0 * Math.PI / 180.0)
                 + 0.24 * Math.Cos(2 * h_rad)
                 + 0.32 * Math.Cos(3 * h_rad + 6.0 * Math.PI / 180.0)
@@ -98,16 +110,17 @@ namespace sharp_render.src.IMGHandle
             double delta_theta = 30 * Math.Exp(-h_prime_average_minus_275_div_25_square);
             double C_prime_average_pot_7 = C_prime_average * C_prime_average * C_prime_average;
             C_prime_average_pot_7 *= C_prime_average_pot_7 * C_prime_average;
-            double R_C = 2 * Math.Sqrt(C_prime_average_pot_7 / (C_prime_average_pot_7 + 6103515625));
+            double R_C =
+                2 * Math.Sqrt(C_prime_average_pot_7 / (C_prime_average_pot_7 + 6103515625));
             double R_T = -Math.Sin(2 * delta_theta * Math.PI / 180.0) * R_C;
             double delta_L_prime_div_k_L_S_L = delta_L_prime / S_L;
             double delta_C_prime_div_k_C_S_C = delta_C_prime / S_C;
             double delta_H_prime_div_k_H_S_H = delta_H_prime / S_H;
             return Math.Sqrt(
                 delta_L_prime_div_k_L_S_L * delta_L_prime_div_k_L_S_L
-                + delta_C_prime_div_k_C_S_C * delta_C_prime_div_k_C_S_C
-                + delta_H_prime_div_k_H_S_H * delta_H_prime_div_k_H_S_H
-                + R_T * delta_C_prime_div_k_C_S_C * delta_H_prime_div_k_H_S_H
+                    + delta_C_prime_div_k_C_S_C * delta_C_prime_div_k_C_S_C
+                    + delta_H_prime_div_k_H_S_H * delta_H_prime_div_k_H_S_H
+                    + R_T * delta_C_prime_div_k_C_S_C * delta_H_prime_div_k_H_S_H
             );
         }
 

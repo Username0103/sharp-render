@@ -8,7 +8,8 @@ namespace sharp_render.src.IMGHandle
         private readonly int dataNumCols;
         public Color[,] Result;
 
-        public Resizer(Color[,] data, int targetRows, int targetColumns) : base("Resizing image")
+        public Resizer(Color[,] data, int targetRows, int targetColumns)
+            : base("Resizing image")
         {
             Color[,] target = new Color[targetRows, targetColumns];
             dataNumRows = data.GetLength(0);
@@ -32,6 +33,7 @@ namespace sharp_render.src.IMGHandle
             Result = target;
             Finish();
         }
+
         private static Color Interpolate(Color[] sources, float[] weights)
         {
             float red = 0;
@@ -43,11 +45,7 @@ namespace sharp_render.src.IMGHandle
                 blu += sources[i].B * weights[i];
                 gre += sources[i].G * weights[i];
             }
-            return new Color([
-                (int)red,
-                (int)gre,
-                (int)blu,
-            ]);
+            return new Color([(int)red, (int)gre, (int)blu]);
         }
 
         private static float[] GetWeights(float distanceX, float distanceY)
@@ -57,7 +55,7 @@ namespace sharp_render.src.IMGHandle
                 (1 - distanceX) * (1 - distanceY),
                 (1 - distanceX) * distanceY,
                 distanceX * (1 - distanceY),
-                distanceX * distanceY
+                distanceX * distanceY,
             ];
         }
 
@@ -68,7 +66,10 @@ namespace sharp_render.src.IMGHandle
                 data[sourceX, sourceY],
                 data[Math.Min(sourceX + 1, dataNumRows - 1), sourceY],
                 data[sourceX, Math.Min(sourceY + 1, dataNumCols - 1)],
-                data[Math.Min(sourceX + 1, dataNumRows - 1), Math.Min(sourceY + 1, dataNumCols - 1)]
+                data[
+                    Math.Min(sourceX + 1, dataNumRows - 1),
+                    Math.Min(sourceY + 1, dataNumCols - 1)
+                ],
             ];
         }
     }
