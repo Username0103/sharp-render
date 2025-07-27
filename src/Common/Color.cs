@@ -1,21 +1,37 @@
 namespace sharp_render.src.Common
 {
-    public record Color
+    public struct Color
     {
-        public int R;
-        public int G;
-        public int B;
+        public byte R;
+        public byte G;
+        public byte B;
 
-        public Color(int[] colors)
+        public Color(byte r, byte g, byte b)
+        {
+            R = r;
+            G = g;
+            B = b;
+        }
+
+        public Color(float r, float g, float b)
+        {
+            R = (byte)(r * 255);
+            G = (byte)(g * 255);
+            B = (byte)(b * 255);
+        }
+
+        public Color(float[] colors)
+        {
+            R = (byte)(colors[0] * 255);
+            G = (byte)(colors[1] * 255);
+            B = (byte)(colors[2] * 255);
+        }
+
+        public Color(byte[] colors)
         {
             R = colors[0];
             G = colors[1];
             B = colors[2];
-        }
-
-        public override string ToString()
-        {
-            return $"{R} {G} {B}";
         }
     }
 }
