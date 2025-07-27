@@ -4,13 +4,13 @@ namespace sharp_render.src
 {
     class Program : TimeableNoConstructor
     {
-        private readonly string help =
+        private static readonly string help =
             """sharp-render [-h || --help] [--debug || -d] [REQUIRED <PathToBMPFile>]""";
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             Program self = new();
-            string path = self.ParseArgs(args);
+            string path = ParseArgs(args);
             self.Start("Total runtime");
             if (path.Length == 0)
             {
@@ -22,7 +22,7 @@ namespace sharp_render.src
             self.Finish();
         }
 
-        private string ParseArgs(string[] args)
+        private static string ParseArgs(string[] args)
         {
             string path = "";
             int i = 0;
