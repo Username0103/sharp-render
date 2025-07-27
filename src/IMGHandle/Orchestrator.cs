@@ -22,7 +22,7 @@ namespace sharp_render.src.IMGHandle
         {
             if (LoggingSingleton.Instance.Level == LoggingLevels.Debug)
             {
-                return [500, 500]; // will not get printed at the end.
+                return [500, 500]; // image will not get printed at the end.
             }
             return [Console.WindowHeight, Console.WindowWidth];
         }
