@@ -3,24 +3,21 @@ using sharp_render.src.Common;
 
 namespace sharp_render.src.IMGHandle
 {
-    public class ReduceColors : Timeable
+    public static class ReduceColors
     {
-        private readonly Color[,] colorInput;
-        private readonly Color[] colorsValid;
-        public readonly Color[,] Result;
-        private readonly ConcurrentDictionary<Color, Color> colorCache = [];
+        private static readonly ConcurrentDictionary<Color, Color> colorCache = [];
 
-        public ReduceColors(Color[,] inputColors, Color[] validColors)
-            : base("Color reduction")
+        public static Color[,] Reduce(Color[,] inputColors, Color[] validColors, out long timeTaken)
         {
-            colorInput = inputColors;
-            colorsValid = validColors;
-            Result = new Color[inputColors.GetLength(0), inputColors.GetLength(1)];
-            FillResult();
-            Finish();
+            var timer = new ProgramTimer();
+            timer.Start("Color reduction");
+            var result = new Color[inputColors.GetLength(0), inputColors.GetLength(1)];
+            FillResult(ref result, inputColors, validColors);
+            timeTaken = timer.Finish();
+            return result;
         }
 
-        private void FillResult()
+        private static void FillResult(ref Color[,] result, Color[,] colorInput, Color[] valid)
         {
             var colorTasks = new Task<FindNearestOutput>[
                 colorInput.GetLength(0) * colorInput.GetLength(1)
@@ -32,7 +29,7 @@ namespace sharp_render.src.IMGHandle
                 foreach (int y in Enumerable.Range(0, colorInput.GetLength(1)))
                 {
                     Color input = colorInput[x, y];
-                    colorTasks[i] = Task.Run(() => FindNearest(input, x, y));
+                    colorTasks[i] = Task.Run(() => FindNearest(input, valid, x, y));
                     i++;
                 }
             }
@@ -41,11 +38,11 @@ namespace sharp_render.src.IMGHandle
             FindNearestOutput[] awaitedResult = colorResults.Result;
             foreach (var output in awaitedResult)
             {
-                Result[output.x, output.y] = output.result;
+                result[output.x, output.y] = output.result;
             }
         }
 
-        private FindNearestOutput FindNearest(Color input, int x, int y)
+        private static FindNearestOutput FindNearest(Color input, Color[] colorsValid, int x, int y)
         {
             if (colorCache.TryGetValue(input, out Color cacheResult))
             {
@@ -53,7 +50,7 @@ namespace sharp_render.src.IMGHandle
             }
 
             Dictionary<Color, double> Differences = [];
-            foreach (Color termColor in colorsValid)
+            foreach (var termColor in colorsValid)
             {
                 Differences[termColor] = CieDe2000Comparison.CalculateDeltaE(input, termColor);
             }

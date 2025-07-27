@@ -1,6 +1,6 @@
 namespace sharp_render.src.IMGParse
 {
-    public class BMPFIle
+    public record class BMPFIle
     {
         public string[] HxArr { get; }
         public BMPHeader Header { get; }

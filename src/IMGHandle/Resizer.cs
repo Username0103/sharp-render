@@ -2,15 +2,20 @@ using sharp_render.src.Common;
 
 namespace sharp_render.src.IMGHandle
 {
-    public class Resizer : Timeable
+    public static class Resizer
     {
-        private readonly int dataNumRows;
-        private readonly int dataNumCols;
-        public Color[,] Result;
+        private static int dataNumRows;
+        private static int dataNumCols;
 
-        public Resizer(Color[,] data, int targetRows, int targetColumns)
-            : base("Resizing image")
+        public static Color[,] Resize(
+            Color[,] data,
+            int targetRows,
+            int targetColumns,
+            out long timeTaken
+        )
         {
+            var timer = new ProgramTimer();
+            timer.Start("Resizing image");
             Color[,] target = new Color[targetRows, targetColumns];
             dataNumRows = data.GetLength(0);
             dataNumCols = data.GetLength(1);
@@ -30,8 +35,8 @@ namespace sharp_render.src.IMGHandle
                     target[x, y] = Interpolate(sources, weights);
                 }
             }
-            Result = target;
-            Finish();
+            timeTaken = timer.Finish();
+            return target;
         }
 
         private static Color Interpolate(Color[] sources, float[] weights)
@@ -45,7 +50,7 @@ namespace sharp_render.src.IMGHandle
                 blu += sources[i].B * weights[i];
                 gre += sources[i].G * weights[i];
             }
-            return new Color([(int)red, (int)gre, (int)blu]);
+            return new Color((byte)red, (byte)gre, (byte)blu);
         }
 
         private static float[] GetWeights(float distanceX, float distanceY)
@@ -59,7 +64,7 @@ namespace sharp_render.src.IMGHandle
             ];
         }
 
-        private Color[] GetSources(int sourceX, int sourceY, Color[,] data)
+        private static Color[] GetSources(int sourceX, int sourceY, Color[,] data)
         {
             return
             [

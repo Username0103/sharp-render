@@ -2,12 +2,16 @@ using System.Text;
 
 namespace sharp_render.src.Common
 {
-    public class IMGPrint : TimeableNoConstructor
+    public static class IMGPrint
     {
-        public static void Print(Color[,] image, Dictionary<Color, int> color2Ansi)
+        public static void Print(
+            Color[,] image,
+            Dictionary<Color, int> color2Ansi,
+            out long timeTaken
+        )
         {
-            var self = new IMGPrint();
-            self.Start("Image rendering");
+            var timer = new ProgramTimer();
+            timer.Start("Turning finished image into text");
             StringBuilder builder = new();
             foreach (int x in Enumerable.Range(0, image.GetLength(0)))
             {
@@ -19,8 +23,8 @@ namespace sharp_render.src.Common
                     builder.Append(CodeToPrint(code));
                 }
             }
-            self.Finish();
-            if (LoggingSingleton.Instance.Level < LoggingLevels.Debug)
+            timeTaken = timer.Finish();
+            if (LoggingSingleton.Instance.Level <= LoggingLevels.Info)
             {
                 Console.WriteLine(builder.ToString());
             }

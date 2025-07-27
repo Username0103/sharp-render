@@ -2,24 +2,32 @@
 
 namespace sharp_render.src
 {
-    class Program : TimeableNoConstructor
+    class Program
     {
         private static readonly string help =
-            """sharp-render [-h || --help] [--debug || -d] [REQUIRED <PathToBMPFile>]""";
+            "sharp-render [-h | --help] [--debug | -d] [REQUIRED <PathToBMPFile>]";
 
         public static void Main(string[] args)
         {
-            Program self = new();
+            var timer = new ProgramTimer();
             string path = ParseArgs(args);
-            self.Start("Total runtime");
+            timer.Start("Total runtime");
             if (path.Length == 0)
             {
                 return;
             }
-            IMGParse.Orchestrator Image = new(path);
-            IMGHandle.Orchestrator Printable = new(Image.Result);
-            IMGPrint.Print(Printable.Result, Printable.TermColorsResult);
-            self.Finish();
+            var image = IMGParse.Orchestrator.Orchestrate(path, out var timeTakenImage);
+            var validColors = TermColors.GetColors();
+            var printable = IMGHandle.Orchestrator.HandleImage(
+                image,
+                [.. validColors.Keys],
+                out var timeTakenHandling
+            );
+            IMGPrint.Print(printable, validColors, out var timeTakenPrinter);
+            var timeTaken = timer.Finish();
+            Console.WriteLine(
+                $"Untimed Sections: elapsed {timeTaken - (timeTakenImage + timeTakenHandling + timeTakenPrinter)}ms"
+            );
         }
 
         private static string ParseArgs(string[] args)
@@ -48,7 +56,7 @@ namespace sharp_render.src
             }
             Console.Error.WriteLine("BMP not found.");
             Environment.Exit(0);
-            throw new Exception(); // for compiler
+            return ""; // for compiler
         }
     }
 }

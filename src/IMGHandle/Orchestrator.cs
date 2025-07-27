@@ -2,20 +2,20 @@ using sharp_render.src.Common;
 
 namespace sharp_render.src.IMGHandle
 {
-    public class Orchestrator
+    public static class Orchestrator
     {
-        public Color[,] Result;
-        public Dictionary<Color, int> TermColorsResult;
-
-        public Orchestrator(Color[,] Image)
+        public static Color[,] HandleImage(Color[,] Image, Color[] validColors, out long timeTaken)
         {
-            int[] dimensions = GetTermDimensions();
-            TermColors colors = new();
-            Color[] validColors = [.. colors.Result.Keys];
-            TermColorsResult = colors.Result;
-            Color[,] resized = new Resizer(Image, dimensions[0], dimensions[1]).Result;
-            Color[,] coerced = new ReduceColors(resized, validColors).Result;
-            Result = coerced;
+            var dimensions = GetTermDimensions();
+            var resized = Resizer.Resize(
+                Image,
+                dimensions[0],
+                dimensions[1],
+                out var timeTakenResizing
+            );
+            var reduced = ReduceColors.Reduce(resized, validColors, out var timeTakenReducing);
+            timeTaken = timeTakenResizing + timeTakenReducing;
+            return reduced;
         }
 
         private static int[] GetTermDimensions()

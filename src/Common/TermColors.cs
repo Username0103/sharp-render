@@ -2,19 +2,18 @@
 
 namespace sharp_render.src.Common
 {
-    public class TermColors
+    public static class TermColors
     {
-        public Dictionary<Color, int> Result { get; }
-
-        public TermColors()
+        public static Dictionary<Color, int> GetColors()
         {
-            Result = [];
-            Add4Bit();
-            Add8Bit();
-            AddGray();
+            Dictionary<Color, int> result = [];
+            Add4Bit(ref result);
+            Add8Bit(ref result);
+            AddGray(ref result);
+            return result;
         }
 
-        private void Add4Bit()
+        private static void Add4Bit(ref Dictionary<Color, int> result)
         {
             foreach (int code in Enumerable.Range(0, 16))
             {
@@ -37,11 +36,11 @@ namespace sharp_render.src.Common
                     : code == 4 ? 238
                     : (code & 4) != 0 ? level
                     : 0;
-                Result[new Color([r, g, b])] = code;
+                result[new Color(r, g, b)] = code;
             }
         }
 
-        private void Add8Bit()
+        private static void Add8Bit(ref Dictionary<Color, int> result)
         {
             int ansiCode = 16;
             foreach (int red in Enumerable.Range(0, 6))
@@ -53,20 +52,20 @@ namespace sharp_render.src.Common
                         int r = red != 0 ? red * 40 + 55 : 0;
                         int g = green != 0 ? green * 40 + 55 : 0;
                         int b = blue != 0 ? blue * 40 + 55 : 0;
-                        Result[new Color([r, g, b])] = ansiCode;
+                        result[new Color(r, g, b)] = ansiCode;
                         ansiCode++;
                     }
                 }
             }
         }
 
-        private void AddGray()
+        private static void AddGray(ref Dictionary<Color, int> result)
         {
             int ansiCode = 232;
             foreach (int neutral in Enumerable.Range(0, 24))
             {
                 int level = neutral * 10 + 8;
-                Result[new Color([level, level, level])] = ansiCode;
+                result[new Color(level, level, level)] = ansiCode;
                 ansiCode++;
             }
         }

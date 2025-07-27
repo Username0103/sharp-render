@@ -13,25 +13,18 @@ namespace sharp_render.src.Common
             B = b;
         }
 
-        public Color(float r, float g, float b)
-        {
-            R = (byte)(r * 255);
-            G = (byte)(g * 255);
-            B = (byte)(b * 255);
-        }
-
-        public Color(float[] colors)
-        {
-            R = (byte)(colors[0] * 255);
-            G = (byte)(colors[1] * 255);
-            B = (byte)(colors[2] * 255);
-        }
-
         public Color(byte[] colors)
         {
             R = colors[0];
             G = colors[1];
             B = colors[2];
+        }
+
+        public Color(int r, int g, int b)
+        {
+            R = (byte)r;
+            G = (byte)g;
+            B = (byte)b;
         }
     }
 }

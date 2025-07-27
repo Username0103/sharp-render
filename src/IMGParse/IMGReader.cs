@@ -4,21 +4,12 @@ using sharp_render.src.Common;
 
 namespace sharp_render.src.IMGParse
 {
-    public class ImgReader
+    public static class ImgReader
     {
-        public readonly Color[,] Result;
-        private readonly BMPFIle HxFile;
-
-        public ImgReader(BMPFIle ToRead)
-        {
-            HxFile = ToRead;
-            Result = To2D(Extract1D(), HxFile.Info.Height, HxFile.Info.Width);
-        }
-
-        private Color[] Extract1D()
+        public static Color[] Extract1D(BMPFIle file)
         {
             IEnumerable<Color> Colors = [];
-            IEnumerable<string[]> Pixels = HxFile.IMGHx.Chunk(HxFile.Info.BitsPerPixel / 8);
+            IEnumerable<string[]> Pixels = file.IMGHx.Chunk(file.Info.BitsPerPixel / 8);
             foreach (string[] Pixel in Pixels)
             {
                 if (Pixel.Length == 3)
@@ -27,11 +18,10 @@ namespace sharp_render.src.IMGParse
                     Colors = Colors.Append(
                         new Color(
                             // blue, green, red
-                            [
-                                Utils.HxToInt([Pixel[2]]),
-                                Utils.HxToInt([Pixel[1]]),
-                                Utils.HxToInt([Pixel[0]]),
-                            ]
+
+                            Utils.HxToInt([Pixel[2]]),
+                            Utils.HxToInt([Pixel[1]]),
+                            Utils.HxToInt([Pixel[0]])
                         )
                     );
                 }
@@ -39,7 +29,7 @@ namespace sharp_render.src.IMGParse
             return [.. Colors];
         }
 
-        private static Color[,] To2D(Color[] Colors, int Height, int Width)
+        public static Color[,] To2D(Color[] Colors, int Height, int Width)
         {
             Color[,] ColorMatrix = new Color[Height, Width];
             if (Colors.Length < Height * Width)

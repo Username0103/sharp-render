@@ -2,17 +2,22 @@ using sharp_render.src.Common;
 
 namespace sharp_render.src.IMGParse
 {
-    public class Orchestrator : Timeable
+    public static class Orchestrator
     {
-        public Color[,] Result { get; }
-
-        public Orchestrator(string path)
-            : base("Reading image")
+        public static Color[,] Orchestrate(string path, out long timeTaken)
         {
-            BMPFIle file = new(path);
-            ImgReader BMPRead = new(file);
-            Result = BMPRead.Result;
-            Finish();
+            var timer = new ProgramTimer();
+            timer.Start("Reading image");
+            var file = new BMPFIle(path);
+            var oneDimensionalImage = ImgReader.Extract1D(file);
+
+            var twoDimensionalImage = ImgReader.To2D(
+                oneDimensionalImage,
+                file.Info.Height,
+                file.Info.Width
+            );
+            timeTaken = timer.Finish();
+            return twoDimensionalImage;
         }
     }
 }

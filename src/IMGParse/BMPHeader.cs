@@ -1,6 +1,6 @@
 namespace sharp_render.src.IMGParse
 {
-    public class BMPHeader
+    public record class BMPHeader
     {
         public string[] Signature { get; private set; }
         public int OffsetBytes { get; private set; }
