@@ -24,7 +24,6 @@ namespace sharp_render.src
 
         private static string ParseArgs(string[] args)
         {
-            string path = "";
             int i = 0;
             if (args.Length == 0)
             {
@@ -41,13 +40,15 @@ namespace sharp_render.src
                 {
                     LoggingSingleton.Instance.Level = LoggingLevels.Debug;
                 }
-                else
+                else if (File.Exists(arg))
                 {
                     return arg;
                 }
                 i++;
             }
-            return path;
+            Console.Error.WriteLine("BMP not found.");
+            Environment.Exit(0);
+            throw new Exception(); // for compiler
         }
     }
 }
