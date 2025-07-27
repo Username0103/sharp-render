@@ -47,7 +47,7 @@ namespace sharp_render.src.IMGHandle
 
         private FindNearestOutput FindNearest(Color input, int x, int y)
         {
-            if (colorCache.TryGetValue(input, out Color? cacheResult))
+            if (colorCache.TryGetValue(input, out Color cacheResult))
             {
                 return new(cacheResult, x, y);
             }
