@@ -6,7 +6,7 @@ namespace sharp_render.src.IMGParse
 {
     public static class ImgReader
     {
-        public static Color[] Extract1D(BMPFIle file)
+        public static Color[] Extract1D(BMPFile file)
         {
             IEnumerable<Color> Colors = [];
             IEnumerable<string[]> Pixels = file.IMGHx.Chunk(file.Info.BitsPerPixel / 8);

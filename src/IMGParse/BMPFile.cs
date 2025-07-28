@@ -1,13 +1,13 @@
 namespace sharp_render.src.IMGParse
 {
-    public record class BMPFIle
+    public record class BMPFile
     {
         public string[] HxArr { get; }
         public BMPHeader Header { get; }
         public InfoHeader Info { get; }
         public string[] IMGHx { get; }
 
-        public BMPFIle(string BMPPath)
+        public BMPFile(string BMPPath)
         {
             HxArr = Utils.ReadImg(BMPPath);
             Header = new(HxArr[..14]);

@@ -8,7 +8,7 @@ namespace sharp_render.src.IMGParse
         {
             var timer = new ProgramTimer();
             timer.Start("Reading image");
-            var file = new BMPFIle(path);
+            var file = new BMPFile(path);
             var oneDimensionalImage = ImgReader.Extract1D(file);
 
             var twoDimensionalImage = ImgReader.To2D(
