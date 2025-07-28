@@ -8,7 +8,7 @@ sharp-render is a C# application that parses BMP files and displays them in the 
 
 ## Example
 
-![A side by side comparison](images/sidebyside.png)
+![](images/example3.png)
 
 ## Features
 
@@ -63,3 +63,14 @@ MIT Liscense
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
+
+## More examples
+
+### With dithering
+![](images/example4.png)
+
+### High-Res
+![](images/example5.png)
+
+### High-Res with Dither
+![](images/example6.png)
