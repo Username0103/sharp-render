@@ -1,10 +1,10 @@
-# sharp-render
+# Sharp-Render
 
 A terminal-based BMP image viewer that renders bitmap images directly in your console using ANSI 256-color codes.
 
 ## Overview
 
-sharp-render is a C# application that parses BMP files and displays them in the terminal by converting pixels to colored block characters. It automatically scales images to fit your terminal window while preserving as much detail as possible through bilinear interpolation.
+Sharp-Render is a C# application that parses BMP files and displays them in the terminal by converting pixels to colored block characters. It automatically scales images to fit your terminal window while preserving as much detail as possible through bilinear interpolation.
 
 ## Example
 
@@ -12,44 +12,33 @@ sharp-render is a C# application that parses BMP files and displays them in the 
 
 ## Features
 
-- **BMP File Parsing**: Reads uncompressed 24-bit BMP files
+- **BMP File Parsing**: Reads uncompressed 24-bit BMP files (Most BMPs are.)
 - **Automatic Scaling**: Resizes images to fit your terminal dimensions using bilinear interpolation
-- **Color Mapping**: Intelligently maps millions of colors to the 256-color ANSI palette
+- **Color Mapping**: Maps colors to the 256-color 8-bit ANSI palette
 - **Cross-Platform**: Works on any terminal that supports ANSI escape codes
 
 ## Requirements
 
 - .NET 9.0 or later
-- A terminal that supports ANSI 256-color escape codes (most modern terminals, but not windows cmd)
+- A terminal that supports ANSI 256-color escape codes (Most modern terminals, but not Windows CMD)
 
 ## Installation
   
 Precombiled binaries are avaliable on the releases.
   
-To compile:
+To run from source:
 ```bash
-git clone https://github.com/Username0103/sharp-render.git
+git clone https://github.com/Username0103/sharp-render
 cd sharp-render
-dotnet build
+dotnet run
 ```
 
 ## Usage
 
 For best results, size your terminal to be close to the aspect ratio of the target image.  
-Decreasing the font size increases the avaliable resolution, but it does get a lot slower.
+Decreasing the font size increases the avaliable resolution, but it does get slower.
+Since Floyd–Steinberg dithering depends on the previous results, dithering runs on a single core and thus is very slow.
   
-Example commands:
-```bash
-dotnet run -h
-dotnet run "C:\path\to\your\image.bmp"
-```
-
-## Limitations
-
-- Only supports uncompressed BMP format
-- Requires 24-bit color depth
-- Image quality depends on terminal size and font
-
 ## Future Enhancements
 
 - Support for additional image formats (PNG, JPEG)
