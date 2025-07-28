@@ -12,15 +12,22 @@ namespace sharp_render.src.Common
         {
             var timer = new ProgramTimer();
             timer.Start("Turning finished image into text");
+
             StringBuilder builder = new();
-            foreach (int x in Enumerable.Range(0, image.GetLength(0)))
+
+            int width = image.GetLength(0);
+            int height = image.GetLength(1);
+
+            for (int row = 0; row < width; row += 2)
             {
                 builder.Append('\n');
-                foreach (int y in Enumerable.Range(0, image.GetLength(1)))
+                for (int col = 0; col < height; col++)
                 {
-                    Color pixel = image[x, y];
-                    int code = color2Ansi[pixel];
-                    builder.Append(CodeToPrint(code));
+                    Color top = image[row, col];
+                    Color bottom = image[row + 1, col];
+                    int topCode = color2Ansi[top];
+                    int bottomCode = color2Ansi[bottom];
+                    builder.Append(CodeToPrint(topCode, bottomCode));
                 }
             }
             timeTaken = timer.Finish();
@@ -30,9 +37,9 @@ namespace sharp_render.src.Common
             }
         }
 
-        private static string CodeToPrint(int color)
+        private static string CodeToPrint(int foreground, int background)
         {
-            return $"\x1b[38;5;{color}m█\x1b[0m";
+            return $"\x1b[38;5;{background}m\x1b[48;5;{foreground}m▄\x1b[0m\x1b[0m";
         }
     }
 }

@@ -4,16 +4,33 @@ namespace sharp_render.src.IMGHandle
 {
     public static class Orchestrator
     {
-        public static Color[,] HandleImage(Color[,] Image, Color[] validColors, out long timeTaken)
+        public static Color[,] HandleImage(
+            Color[,] Image,
+            Color[] validColors,
+            bool shouldDither,
+            out long timeTaken
+        )
         {
             var dimensions = GetTermDimensions();
             var resized = Resizer.Resize(
-                Image,
-                dimensions[0],
-                dimensions[1],
-                out var timeTakenResizing
+                data: Image,
+                targetRows: dimensions[0] * 2,
+                targetColumns: dimensions[1],
+                timeTaken: out var timeTakenResizing
             );
-            var reduced = ReduceColors.Reduce(resized, validColors, out var timeTakenReducing);
+
+            Color[,] reduced;
+            long timeTakenReducing;
+
+            if (shouldDither)
+            {
+                reduced = ReduceColorsAndDither.Reduce(resized, validColors, out timeTakenReducing);
+            }
+            else
+            {
+                reduced = ReduceColors.Reduce(resized, validColors, out timeTakenReducing);
+            }
+
             timeTaken = timeTakenResizing + timeTakenReducing;
             return reduced;
         }
