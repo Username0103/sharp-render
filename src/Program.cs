@@ -5,7 +5,7 @@ namespace sharp_render.src
     class Program
     {
         private static readonly string help =
-            "sharp-render [-h | --help] [-dt | --dither] [--debug | -d] [REQUIRED <PathToBMPFile>]";
+            "sharp-render [-h | --help] [-d | --dither] [-p | [--profile] [REQUIRED <PathToBMPFile>]";
 
         public static void Main(string[] args)
         {
@@ -49,11 +49,11 @@ namespace sharp_render.src
                 {
                     Console.WriteLine(help);
                 }
-                if ((arg == "-dt") || (arg == "--dither"))
+                if ((arg == "-d") || (arg == "--dither"))
                 {
                     shouldDither = true;
                 }
-                else if ((arg == "-d") || (arg == "--debug"))
+                else if ((arg == "-p") || (arg == "--profile"))
                 {
                     LoggingSingleton.Instance.Level = LoggingLevels.Debug;
                 }
