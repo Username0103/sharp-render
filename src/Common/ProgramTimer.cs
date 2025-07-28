@@ -16,6 +16,22 @@ namespace sharp_render.src.Common
             }
         }
 
+        public void Start()
+        {
+            if (LoggingSingleton.Instance.Level >= LoggingLevels.Debug)
+            {
+                timer.Start();
+            }
+        }
+
+        public void Stop()
+        {
+            if (LoggingSingleton.Instance.Level >= LoggingLevels.Debug)
+            {
+                timer.Stop();
+            }
+        }
+
         public long Finish()
         {
             if (LoggingSingleton.Instance.Level >= LoggingLevels.Debug)
