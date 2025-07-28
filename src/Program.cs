@@ -25,9 +25,12 @@ namespace sharp_render.src
             );
             IMGPrint.Print(printable, validColors, out var timeTakenPrinter);
             var timeTaken = timer.Finish();
-            Console.WriteLine(
-                $"Untimed Sections: elapsed {timeTaken - (timeTakenImage + timeTakenHandling + timeTakenPrinter)}ms"
-            );
+            if (LoggingSingleton.Instance.Level >= LoggingLevels.Debug)
+            {
+                Console.WriteLine(
+                    $"Untimed Sections: elapsed {timeTaken - (timeTakenImage + timeTakenHandling + timeTakenPrinter)}ms"
+                );
+            }
         }
 
         private static string ParseArgs(string[] args)
