@@ -5,12 +5,12 @@ namespace sharp_render.src
     class Program
     {
         private static readonly string help =
-            "sharp-render [-h | --help] [--debug | -d] [REQUIRED <PathToBMPFile>]";
+            "sharp-render [-h | --help] [-dt | --dither] [--debug | -d] [REQUIRED <PathToBMPFile>]";
 
         public static void Main(string[] args)
         {
             var timer = new ProgramTimer();
-            string path = ParseArgs(args);
+            string path = ParseArgs(args, out bool shouldDither);
             timer.Start("Total runtime");
             if (path.Length == 0)
             {
@@ -19,9 +19,10 @@ namespace sharp_render.src
             var image = IMGParse.Orchestrator.Orchestrate(path, out var timeTakenImage);
             var validColors = TermColors.GetColors();
             var printable = IMGHandle.Orchestrator.HandleImage(
-                image,
-                [.. validColors.Keys],
-                out var timeTakenHandling
+                Image: image,
+                validColors: [.. validColors.Keys],
+                shouldDither: shouldDither,
+                timeTaken: out var timeTakenHandling
             );
             IMGPrint.Print(printable, validColors, out var timeTakenPrinter);
             var timeTaken = timer.Finish();
@@ -33,9 +34,10 @@ namespace sharp_render.src
             }
         }
 
-        private static string ParseArgs(string[] args)
+        private static string ParseArgs(string[] args, out bool shouldDither)
         {
             int i = 0;
+            shouldDither = false;
             if (args.Length == 0)
             {
                 Console.WriteLine(help);
@@ -46,6 +48,10 @@ namespace sharp_render.src
                 if ((arg == "-h") || (arg == "--help"))
                 {
                     Console.WriteLine(help);
+                }
+                if ((arg == "-dt") || (arg == "--dither"))
+                {
+                    shouldDither = true;
                 }
                 else if ((arg == "-d") || (arg == "--debug"))
                 {
