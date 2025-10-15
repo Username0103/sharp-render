@@ -24,7 +24,7 @@ Sharp-Render is a C# application that parses BMP files and displays them in the 
 
 ## Installation
   
-![Precompiled binaries](https://github.com/Username0103/sharp-render/releases) are available on the releases.
+[Precompiled binaries](https://github.com/Username0103/sharp-render/releases) are available on the releases.
   
 To run from source:
 ```bash
