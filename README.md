@@ -24,7 +24,7 @@ Sharp-Render is a C# application that parses BMP files and displays them in the 
 
 ## Installation
   
-Precombiled binaries are avaliable on the releases.
+![Precompiled binaries](https://github.com/Username0103/sharp-render/releases) are available on the releases.
   
 To run from source:
 ```bash
@@ -34,6 +34,8 @@ dotnet run
 ```
 
 ## Usage
+
+`cd` to the directory where the executable is kept, then simply run it by typing in the filename. The program will show you all the flags and such.
 
 For best results, size your terminal to be close to the aspect ratio of the target image.  
 Decreasing the font size increases the avaliable resolution, but it does get slower.
