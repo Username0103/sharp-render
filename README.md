@@ -4,7 +4,7 @@ A terminal-based BMP image viewer that renders bitmap images directly in your co
 
 ## Overview
 
-Sharp-Render is a C# application that parses BMP files and displays them in the terminal by converting pixels to colored block characters. It automatically scales images to fit your terminal window while preserving as much detail as possible through bilinear interpolation.
+Sharp-Render is a C# application that parses BMP files and displays them in the terminal by converting pixels to colored block characters. It automatically scales images to fit your terminal window while preserving as much detail as possible.
 
 ## Example
 
@@ -46,10 +46,6 @@ Since Floyd–Steinberg dithering depends on the previous results, dithering run
 - Support for additional image formats (PNG, JPEG)
 - Different scaling algorithms
 - ASCII art mode for non-color terminals
-
-## License
-
-MIT Liscense
 
 ## Contributing
 
