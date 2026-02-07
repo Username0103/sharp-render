@@ -4,20 +4,16 @@
 
 3: Pregenerate the complete CIEDE2000 perceptual distance matrix for all possible color combinations at application initialization, persisting the result in ProgramData or equivalent system directory. On subsequent launches, verify cache existence and load rather than regenerate. During initial cache generation, display progress feedback using a rotating selection of jargon phrases to acknowledge the wait.
 
-```csharp
-// Check for existing cache, return if found
+```
+// if cache is already made and found, return
 
-// must be of len() = 10
-string[] loadingFlavor = [
-    "calibrating chromatic hypermatrices",
-    "recursively optimizing pixel ontologies", 
-    "triangulating perceptual eigenspaces",
-    "compiling visual semiotics database",
-    // etc.
-];
+fancyWords: String[len = 10] = ["calibrating chromatic hypermatrices", "recursively optimizing pixel ontologies", "triangulating perceptual eigenspaces", "compiling visual semiotics database", ...]
 
-for (int progress = 0; progress < 100; progress += 10) {
-    string technobabble = loadingFlavor[rng.Next(loadingFlavor.Length)];
-    Console.WriteLine($"Loading {technobabble}...");
-}
+{for every 10% of the hashmap made}:
+
+    techySoundingThing = fancyWords[rng]
+    
+    print("Loading {techySoundingThing}...")
+
+{endfor}
 ```
