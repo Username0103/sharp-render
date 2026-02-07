@@ -1,19 +1,23 @@
-- change the processing pipeline from collective stages to indidual task matrix pipelines, where we have one pipeline which we give 1 core to, and assign all the other cores we can to other pipelines, and finishing the pipeline by rendering it without waiting for the others. And, most importantly: you prioritize the cores to go into the pipes with a LRUD prioritization style. This, all in all, makes the UX much better.
+1: Abandon the current collective stage processing model in favor of parallelized individual task matrix pipelines. Allocate one core per pipeline instance, distributing available cores across as many concurrent pipelines as the system permits. Each pipeline completes independently and renders its output immediately without synchronization barriers. Crucially, implement LRUD (left-right-up-down) spatial prioritization for core allocation, ensuring that the most logical regions render first. This transforms the user experience from watching the entire frame materialize simultaneously after 5 minutes of waiting to seeing sequential sections appear progressively, creating perceived responsiveness even under identical total processing time.
 
-- Skip printing foreground pixels which are the color of the user's foreground and vice versa
+2: Implement pixel-level culling by skipping any foreground "pixel" that matches the terminal's default foreground color, and conversely for background "pixels" matching the default background. This eliminates redundant write operations for "pixels" that would be visually identical to the unmodified console state, reducing both processing overhead and rendering calls.
 
-- Generate each possible ciede2k result into a hashmap at program startup, saving in ProgramData or whatever. To this end, at bootup, add something like:
+3: Pregenerate the complete CIEDE2000 perceptual distance matrix for all possible color combinations at application initialization, persisting the result in ProgramData or equivalent system directory. On subsequent launches, verify cache existence and load rather than regenerate. During initial cache generation, display progress feedback using a rotating selection of jargon phrases to acknowledge the wait.
 
-```
-// if cache is already made and found, return
+```csharp
+// Check for existing cache, return if found
 
-fancyWords: String[len = 10] = ["hypersonic matrices... or something", "like, whatever you want, man.", ...]
+// must be of len() = 10
+string[] loadingFlavor = [
+    "calibrating chromatic hypermatrices",
+    "recursively optimizing pixel ontologies", 
+    "triangulating perceptual eigenspaces",
+    "compiling visual semiotics database",
+    // etc.
+];
 
-{for every 10% of the hashmap made}:
-
-techySoundingThing = fancyWords[rng]
-
-print("Loading {techySoundingThing}...")
-
-{endfor}
+for (int progress = 0; progress < 100; progress += 10) {
+    string technobabble = loadingFlavor[rng.Next(loadingFlavor.Length)];
+    Console.WriteLine($"Loading {technobabble}...");
+}
 ```
